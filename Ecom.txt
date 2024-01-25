@@ -1,0 +1,20 @@
+User:
+userId: String
+username: String
+profilePic: String
+email: String
+password: String
+
+Products:
+productId: String
+price : Number
+name: String
+description: String
+availableAmount: Number
+category: String
+productImage : Array
+
+Order:
+userId : ObjectId ref user
+products  : [{product: ObjectId ref Products , quantity:Number}]
+totalAamount : Number

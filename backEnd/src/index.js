@@ -1,5 +1,7 @@
 import dotenv from "dotenv"
-dotenv.config()
+dotenv.config({
+    path:"./env"
+});
 
 import express from "express"
 import connectDb from "./db/db.js"
@@ -9,6 +11,7 @@ const app  =express()
 const port = process.env.PORT || 6000
 
 app.use(express.json({limit:"16kb"}));
+app.use(express.static("public"))
 
 connectDb().then(()=>{
     app.listen(port, ()=>{
