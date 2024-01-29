@@ -1,6 +1,7 @@
 import express from "express"
-import { registerUser } from "../controller/user.controller.js"
+import { loginUser, logoutUser, registerUser } from "../controller/user.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
+
 
 const route  = express.Router()
 
@@ -11,5 +12,9 @@ route.route("/register").post(upload.fields([
     }
 
 ]) ,registerUser)
+
+route.route("/login").post(loginUser)
+route.route("/logout").post(logoutUser)
+
 
 export default route

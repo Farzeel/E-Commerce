@@ -50,9 +50,72 @@ try {
 
 } catch (error) {
     console.log(error)
-    throw new ApiError(500, "Internal Server Error. Please try again after few Seconds")
+    return res.status(500).json(
+        new ApiError(400, "Internal Server Error")
+    )
 }
 
 }
 
-export {registerUser}
+const loginUser =  async (req , res)=>{
+   try {
+     const {email, password} = req.body
+ 
+     if ([email,password].some(field=>field.trim()==="")) {
+         return res.status(400).json(
+             new ApiError(400,  "both Fileds Required")
+         )
+     }
+ 
+     const userExist = await User.findOne({email})
+     if (!userExist) {
+         return res.status(401).json(
+             new ApiError(400,  "Authentication failed: Invalid Credentials")
+         )
+     }
+    
+     const isPasswordCorrect  = await userExist.isPasswordCorrect(password)
+ 
+     if (!isPasswordCorrect) {
+         return res.status(401).json(
+             new ApiError(400,  "Authentication failed: Invalid Credentials. Try Again ")
+         )
+     }
+ 
+     const accessToken = await userExist.generateAccessToken()
+ 
+     const loggedInUser = await User.findById(userExist._id).select("-password ")
+ 
+ const option = {
+     htppOnly:true,
+     secure:true
+ }
+ 
+ return res.status(200)
+ .cookie("accessToken",accessToken, option)
+ .json(new ApiResponse(200, loggedInUser, "user loggedIn Successfully "))
+   } catch (error) {
+    console.log(error)
+    return res.status(500).json(
+        new ApiError(400, "Internal Server Error")
+    )
+   }
+
+}
+
+
+const logoutUser  = async (req, res)=>{
+    const option = {
+        htppOnly:true,
+        secure:true
+    }
+    
+    return res.status(200)
+    .clearCookie("accessToken",option)
+    .json(new ApiResponse(200, {}, "User LoggedOut "))
+    
+}
+
+
+
+export {registerUser, loginUser, logoutUser}
