@@ -20,16 +20,24 @@ try {
     const existedUser = await User.findOne({$or:[{email},{username}]})
 
     if (existedUser) {
-         fs.unlink(req.files.avatar[0].path)
+      
+        if(Array.isArray(req.files.avatar)){
+          fs.unlink(req.files?.avatar[0]?.path)
+        }
         return res.status(409).json(
             new ApiError(400, "user with this email or username already exist. please try with other email or username")
         )
        
     }
 
-    const avatarLocalPath = req.files?.avatar[0].path
+    let avatar;
+    console.log("i am above localavatar path")
+    if(Array.isArray(req.files.avatar)){
+        const avatarLocalPath = req.files?.avatar[0].path
+         avatar = await fileUploadOnCloudonary(avatarLocalPath)
+         console.log({avatarLocalPath})
+        }
 
-    const avatar = await fileUploadOnCloudonary(avatarLocalPath)
 
     const user  = await User.create({
         username,   
