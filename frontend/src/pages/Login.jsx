@@ -3,106 +3,89 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setAuthorized } from "../store/authSlice";
+
 import Loading from "../components/Loading";
 import Errormessage from "../components/ErrorMessage";
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
     .min(4, "Password must be at least 4 characters")
     .required("Password is required"),
-  file: Yup.mixed(),
 });
 
 const initialValues = {
-  username: "",
   email: "",
   password: "",
-  avatar: null,
 };
 
-const Registration = () => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleRegistration = async (values) => {
-    const formData = new FormData();
 
-    formData.append("username", values.username);
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    formData.append("avatar", values.avatar);
-    console.log(values);
 
+  const handleLogin = async (values) => {
+    setLoading(true);
+    const data = {
+      email: values.email,
+      password: values.password,
+    };
+    console.log(data);
     let response;
     try {
-      setLoading(true);
       response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/register`,
-        formData,
+        `${import.meta.env.VITE_BASE_URL}/users/login`,
+        data,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
           withCredentials: true,
         }
       );
-
+      dispatch(setAuthorized(true));
       toast.success(response.data.message);
-    } catch (err) {
-      if (err.message === "Network Error") {
-      toast.error(`${err.message} please try again in few Seconds `);
     } 
-    toast.error(err.response.data.message);
-    }finally {
+    catch (err) {
+      if (err.message === "Network Error") {
+        toast.error(`${err.message} please try again in few Seconds `);
+      }
+      console.log(err);
+      toast.error(err.response.data.message);
+ 
+    } 
+    finally {
       setLoading(false);
     }
   };
 
   return (
     <div>
-      <h2>Sign Up</h2>
+      <h2>Sign In</h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleRegistration}
+        onSubmit={handleLogin}
       >
-        {({ handleSubmit, isValid, dirty, setFieldValue }) => (
+        {({ handleSubmit, isValid, dirty }) => (
           <Form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="username">Username</label>
-              <Field type="text" name="username" />
-            <Errormessage name={"username"} />
-            </div>
-
             <div>
               <label htmlFor="email">Email</label>
               <Field type="email" name="email" />
-              <Errormessage name={"email"} />
+              <Errormessage name="email"/>
             </div>
 
             <div>
               <label htmlFor="password">Password</label>
               <Field type="password" name="password" />
-              <Errormessage name={"password"} />
-            </div>
-
-            <div>
-              <label htmlFor="file">Upload File</label>
-              <input
-                type="file"
-                name="avatar"
-                onChange={(event) => {
-                  setFieldValue("avatar", event.currentTarget?.files[0]);
-                }}
-              />
+              <Errormessage name="password"/>
             </div>
 
             {loading ? (
               <Loading />
             ) : (
               <button type="submit" disabled={!isValid || !dirty}>
-                Create Account
+                Login
               </button>
             )}
           </Form>
@@ -112,4 +95,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default Login;

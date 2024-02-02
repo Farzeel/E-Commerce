@@ -96,7 +96,8 @@ const loginUser =  async (req , res)=>{
  
  const option = {
      htppOnly:true,
-     secure:true
+     secure:true,
+     expires: new Date(Date.now() + 86400000)
  }
  
  return res.status(200)
@@ -115,7 +116,8 @@ const loginUser =  async (req , res)=>{
 const logoutUser  = async (req, res)=>{
     const option = {
         htppOnly:true,
-        secure:true
+        secure:true,
+        
     }
     
     return res.status(200)
@@ -124,6 +126,10 @@ const logoutUser  = async (req, res)=>{
     
 }
 
+const protectedRoute = (req, res)=>{
+    res.json({message:"i am protected"})
+}
 
 
-export {registerUser, loginUser, logoutUser}
+
+export {registerUser, loginUser, logoutUser, protectedRoute}
