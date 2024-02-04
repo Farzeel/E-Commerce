@@ -31,11 +31,11 @@ try {
     }
 
     let avatar;
-    console.log("i am above localavatar path")
+
     if(Array.isArray(req.files.avatar)){
         const avatarLocalPath = req.files?.avatar[0].path
          avatar = await fileUploadOnCloudonary(avatarLocalPath)
-         console.log({avatarLocalPath})
+        
         }
 
 

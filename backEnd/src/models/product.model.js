@@ -4,7 +4,7 @@ import mongoose, { Schema } from "mongoose";
 // DEFINING THE Product SCHEMA
 const productSchema = new Schema({
     price:{
-        type:String , 
+        type:Number , 
         required:true,
       
     },
