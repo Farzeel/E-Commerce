@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import Testroute from "./pages/Testroute";
 import Error from "./pages/Error";
 import AddProduct from "./admin/AddProduct";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -54,7 +55,7 @@ transition: Bounce
    
         </Routes>
      
-    
+    <Footer/>
   
     </Router>
     
