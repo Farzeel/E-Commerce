@@ -11,8 +11,9 @@ try {
         cb(null, file.originalname + '-' + uniqueSuffix)
       }
     })
+
 } catch (error) {
-  console.log({multer:error.message})
+  console.log({multer:error.message}) 
 }
   
   export const upload = multer({ storage: storage })

@@ -93,6 +93,7 @@ const Registration = () => {
                 type="file"
                 name="avatar"
                 onChange={(event) => {
+                  console.log("avatar", event.currentTarget?.files[0])
                   setFieldValue("avatar", event.currentTarget?.files[0]);
                 }}
               />

@@ -18,9 +18,9 @@ const addProduct = async (req, res) => {
     }
    
     const productPhotoLocalPath = req.files?.productPhotos?.map(file=>file.path);
+    
 
      
-
 
     if (!productPhotoLocalPath || productPhotoLocalPath?.length===0) {
       return res.status(400).json(new ApiError(400, "Photo is Required"));
@@ -31,7 +31,6 @@ const addProduct = async (req, res) => {
       productPhotoLocalPath.map(async (localPath, index) => {
         try {
           const cloudinaryUrl = await fileUploadOnCloudonary(localPath);
-          console.log(cloudinaryUrl.url, index);
           cloudinaryUrls.push(cloudinaryUrl.url);
         } catch (uploadError) {
           // Handle the error for the current file but allow other files to continue

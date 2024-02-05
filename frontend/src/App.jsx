@@ -11,6 +11,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useSelector } from "react-redux";
 import Testroute from "./pages/Testroute";
 import Error from "./pages/Error";
+import AddProduct from "./admin/AddProduct";
 
 
 function App() {
@@ -44,8 +45,9 @@ transition: Bounce
         <Route path={"/register"} element={isAuthorized?<Navigate to={"/"}/>:<Registration/>} />
         <Route path={"/login"} element={isAuthorized?<Navigate to={"/"}/>:<Login/>} />
         <Route path={"/test"} element={<Testroute/>} />
-       
-            <Route path="/protected" element={<PrivateRoute><Protect /></PrivateRoute>} />
+        <Route path={"/admin/addProduct"} element={<AddProduct/>} />
+        <Route path="/protected" element={<PrivateRoute><Protect /></PrivateRoute>} />
+        <Route path={"/admin/addProduct"} element={<AddProduct/>} />
 
             <Route path={"*"} element={<Error/>} />
        

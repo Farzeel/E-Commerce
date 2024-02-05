@@ -54,6 +54,9 @@ const Navbar = () => {
           <li>
           <Link to="/test">TestRoute</Link>
         </li>
+          <li>
+          <Link to="/admin/addProduct">Add Product</Link>
+        </li>
       </ul>
     </div>
   );
