@@ -60,39 +60,55 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Sign In</h2>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleLogin}
-      >
-        {({ handleSubmit, isValid, dirty }) => (
-          <Form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="email">Email</label>
-              <Field type="email" name="email" />
-              <Errormessage name="email"/>
-            </div>
+    <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
+    <h2 className="text-2xl font-bold mb-4">Sign In</h2>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleLogin}
+    >
+      {({ handleSubmit, isValid, dirty }) => (
+        <Form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+              Email
+            </label>
+            <Field
+              type="email"
+              name="email"
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+            <Errormessage name="email" />
+          </div>
 
-            <div>
-              <label htmlFor="password">Password</label>
-              <Field type="password" name="password" />
-              <Errormessage name="password"/>
-            </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-600">
+              Password
+            </label>
+            <Field
+              type="password"
+              name="password"
+              className="mt-1 p-2 w-full border rounded-md"
+            />
+            <Errormessage name="password" />
+          </div>
 
-            {loading ? (
-              <Loading />
-            ) : (
-              <button type="submit" disabled={!isValid || !dirty}>
-                Login
-              </button>
-            )}
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
+          {loading ? (
+            <Loading />
+          ) : (
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              disabled={!isValid || !dirty}
+            >
+              Login
+            </button>
+          )}
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
 };
 
 export default Login;

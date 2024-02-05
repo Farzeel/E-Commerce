@@ -60,57 +60,60 @@ const Registration = () => {
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleRegistration}
-      >
-        {({ handleSubmit, isValid, dirty, setFieldValue }) => (
-          <Form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="username">Username</label>
-              <Field type="text" name="username" />
-            <Errormessage name={"username"} />
-            </div>
-
-            <div>
-              <label htmlFor="email">Email</label>
-              <Field type="email" name="email" />
-              <Errormessage name={"email"} />
-            </div>
-
-            <div>
-              <label htmlFor="password">Password</label>
-              <Field type="password" name="password" />
-              <Errormessage name={"password"} />
-            </div>
-
-            <div>
-              <label htmlFor="file">Upload File</label>
-              <input
-                type="file"
-                name="avatar"
-                onChange={(event) => {
-                  console.log("avatar", event.currentTarget?.files[0])
-                  setFieldValue("avatar", event.currentTarget?.files[0]);
-                }}
-              />
-            </div>
-
-            {loading ? (
-              <Loading />
-            ) : (
-              <button type="submit" disabled={!isValid || !dirty}>
-                Create Account
-              </button>
-            )}
-          </Form>
-        )}
-      </Formik>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-md shadow-md w-full sm:w-96">
+        <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleRegistration}
+        >
+          {({ handleSubmit, isValid, dirty, setFieldValue }) => (
+            <Form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium text-gray-600">Username</label>
+                <Field type="text" name="username" className="mt-1 p-2 w-full border rounded-md" />
+                <Errormessage name={"username"} />
+              </div>
+  
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
+                <Field type="email" name="email" className="mt-1 p-2 w-full border rounded-md" />
+                <Errormessage name={"email"} />
+              </div>
+  
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-600">Password</label>
+                <Field type="password" name="password" className="mt-1 p-2 w-full border rounded-md" />
+                <Errormessage name={"password"} />
+              </div>
+  
+              <div>
+                <label htmlFor="avatar" className="block text-sm font-medium text-gray-600">Upload File</label>
+                <input
+                  type="file"
+                  name="avatar"
+                  onChange={(event) => {
+                    setFieldValue("avatar", event.currentTarget?.files[0]);
+                  }}
+                  className="mt-1 p-2 w-full border rounded-md"
+                />
+              </div>
+  
+              {loading ? (
+                <Loading />
+              ) : (
+                <button type="submit" disabled={!isValid || !dirty} className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+                  Create Account
+                </button>
+              )}
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
+  
 };
 
 export default Registration;

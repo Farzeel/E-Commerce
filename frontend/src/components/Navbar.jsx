@@ -33,32 +33,41 @@ const Navbar = () => {
   };
 
   return (
-    <div style={{width:"100vw" , backgroundColor:"gray" , height:"30px"}}>
-
-      <ul style={{display:"flex", gap:"20px"}}>
-        
-        {!isAuthorized ? 
-        <>
+   <>
+   
+   <nav className="bg-gray-800 p-4">
+    <div className="container mx-auto flex justify-between items-center">
+      <div>
+        <Link to="/" className="text-white text-xl font-bold">Your Logo</Link>
+      </div>
+      <ul className="flex space-x-4">
+        {!isAuthorized ? (
+          <>
+            <li>
+              <Link to="/register" className="text-white">Register</Link>
+            </li>
+            <li>
+              <Link to="/login" className="text-white">Login</Link>
+            </li>
+          </>
+        ) : (
+          <li>
+            <button onClick={handleLogout} className="text-white">Logout</button>
+          </li>
+        )}
         <li>
-        <Link to="/register">register</Link>
-      </li>
+          <Link to="/protected" className="text-white">Protected</Link>
+        </li>
         <li>
-          <Link to="/login">login</Link>
+          <Link to="/test" className="text-white">Test Route</Link>
         </li>
-        </>
-        :
-       <button onClick={handleLogout}>Logout</button>}
-          <li>
-          <Link to="/protected">protected</Link>
-        </li>
-          <li>
-          <Link to="/test">TestRoute</Link>
-        </li>
-          <li>
-          <Link to="/admin/addProduct">Add Product</Link>
+        <li>
+          <Link to="/admin/addProduct" className="text-white">Add Product</Link>
         </li>
       </ul>
     </div>
+  </nav>
+   </>
   );
 };
 
