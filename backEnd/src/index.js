@@ -36,4 +36,4 @@ import productRoute from "./routes/product.routes.js";
 
 // ROUTE DECLARATION
 app.use("/api/v1/users", userRoute)
-app.use("/api/v1/admin", productRoute)
+app.use("/api/v1/product", productRoute)
