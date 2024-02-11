@@ -4,6 +4,7 @@ import { VerifyJWT } from "../middlewares/auth.middleware.js";
 import {
   addProduct,
   deleteProduct,
+  getProducts,
   getProductDetailsById,
   updateProduct,
   updateProductPhotos,
@@ -37,5 +38,6 @@ route.route("/updateProductPhoto/:productId").post(
   updateProductPhotos
 );
 route.route("/deleteProduct/:productId").delete(VerifyJWT, deleteProduct);
+route.route("/getProduct").get(VerifyJWT, getProducts);
 
 export default route;
