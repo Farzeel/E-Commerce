@@ -6,7 +6,7 @@ const VerifyJWT = async (req, res, next) =>{
 const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
 
 if(!token){
-    return res.status(401).json(new ApiError(400, "UnAuthorized Request"))
+    return res.status(401).json(new ApiError(400, "Please Login!"))
 }
 
 const decodetoken = jwt.verify(token,  process.env.ACCESS_TOKEN_SECRET)
