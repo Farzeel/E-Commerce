@@ -71,4 +71,49 @@ const getUserCartItems = async (req, res) => {
   }
 };
 
-export { addToCart, getUserCartItems };
+const deleteCartItem = async (req, res) => {
+  try {
+    const productId = req.query.productId || req.body.productId;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json(new ApiError(400, "product not found"));
+    }
+    const cart = await Cart.findOne({ user: req.user._id });
+    if (!cart) {
+      return res
+        .status(404)
+        .json(
+          new ApiError(400, "No item in the cart! add items will appear here")
+        );
+    }
+
+    const updateCart = cart.products.filter(
+      (item) => item.product.toString() !== productId
+    );
+    cart.products = updateCart;
+    let totalItems = 0;
+    let totalPrice = 0;
+
+    for (const item of cart.products) {
+      totalItems += item.quantity;
+      try {
+        const product = await Product.findById(item.product);
+        totalPrice += product.price * item.quantity;
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        return res.status(500).json(new ApiError(500, "Internal Server Error"));
+      }
+    }
+    cart.totalItems = totalItems;
+    cart.totalPrice = totalPrice;
+    await cart.save();
+
+    return res.status(200).json(new ApiResponse(200, cart, ""));
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+  }
+};
+
+export { addToCart, getUserCartItems, deleteCartItem };
