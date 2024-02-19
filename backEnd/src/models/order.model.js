@@ -42,8 +42,5 @@ const orderSchema = new Schema({
 )
 
 
-
-
-
 // EXPORT THE Product SCHEMA
-export const Oroduct = mongoose.model("Order",orderSchema)
+export const Order = mongoose.model("Order",orderSchema)
